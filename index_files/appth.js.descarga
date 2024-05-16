@@ -1,0 +1,75 @@
+jQuery(document).ready(function($) {
+
+    $('form.formfiltatts select').select2();         
+
+    $(document).on('click', '.absclick.elementor-widget-image', function(event) {
+        event.preventDefault();
+        /* Act on the event */
+
+        var id = $(this).attr("idimg");
+
+        $(id).addClass('mostrar');
+    });
+
+    $(document).mouseup(function(e) {
+        var container = $(".imgprodabs.elementor-widget-image");
+        if (!container.is(e.target) && container.has(e.target).length === 0) {
+            container.removeClass("mostrar");
+        }
+    });
+
+    $(document).on('mouseout', '.imgprodabs.elementor-widget-image', function() {
+        $(this).removeClass("mostrar");
+    });
+
+    /*MAPA ASESORES CONTACTO*/
+    if ($("#svgmapa").length > 0) {
+
+        $("#svgmapa path.pres").each(function(index, el) {
+            $(this).append("<text class='tooltip' style='font-size: 24px;'><textPath startOffset='50%' text-anchor='middle'>" + $(this).find('title').text() + "</textPath></text>");
+        });
+
+        $(document).on('click', '#svgmapa path.pres', function(event) {
+            event.preventDefault();
+            /* Act on the event */
+
+            $("#svgmapa path.pres").removeClass("actual");
+            $(this).addClass('actual');
+
+            var iddiv = $(this).attr("data-info");
+
+            $(".elementor-element.contdatos > .elementor-element.e-con-boxed").hide();
+            $(".elementor-element.contdatos > #" + iddiv).slideDown();
+
+            if (screen.width < 785) {
+                /*document.getElementById(iddiv).scrollIntoView();*/
+
+                $('html,body').animate({
+                    scrollTop: $(".elementor-element.contdatos > #" + iddiv).offset().top
+                }, 1000);
+            }
+
+
+        });
+
+
+
+    }
+
+
+    /*TIENDA, CATEGORIA PRODUCTO*/
+    $("#btnmostimgdeta").hover(function() {
+        // Cuando el mouse hace hover en el botón, mostramos el detalle
+        $("#imgdetaabs").addClass('show');
+    }, function() {
+        // Cuando el mouse deja de hacer hover en el botón, ocultamos el detalle
+        $("#imgdetaabs").removeClass('show');
+    });
+    
+    $("#btnmostimgdeta").click(function() {
+        // Cuando se hace clic en el botón, mostramos u ocultamos el detalle
+        $("#imgdetaabs").toggleClass('show');
+    });
+
+});
+
